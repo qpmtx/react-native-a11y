@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react-native';
+import { render, act } from '@testing-library/react-native';
 import { QPA11YPressable } from '../../components/QPA11YPressable';
 import { QPA11YView } from '../../components/QPA11YView';
 import { QPA11YText } from '../../components/QPA11YText';
@@ -57,12 +57,16 @@ describe('Runtime Validation Components', () => {
   });
 
     describe('QPA11YText', () => {
-    it('should default to role="text"', () => {
+    it('should default to role="text"', async () => {
       const { getByText } = render(
         <QPA11YAccessibilityProvider>
           <QPA11YText>Hello</QPA11YText>
         </QPA11YAccessibilityProvider>
       );
+      
+      await act(async () => {
+        await new Promise(resolve => setTimeout(resolve, 0));
+      });
 
       const text = getByText('Hello');
       expect(text.props.accessibilityRole).toBe('text');

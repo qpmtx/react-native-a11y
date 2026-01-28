@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, waitFor } from '@testing-library/react-native';
+import { render, waitFor, act } from '@testing-library/react-native';
 import { QPA11YAccessibilityProvider, QPA11YAccessibilityContext } from '../../context/AccessibilityContext';
 import { AccessibilityInfo, PixelRatio } from 'react-native';
 
@@ -29,6 +29,10 @@ describe('QPA11YAccessibilityProvider', () => {
       </QPA11YAccessibilityProvider>
     );
 
+    await act(async () => {
+      await new Promise(resolve => setTimeout(resolve, 0));
+    });
+
     // Initial state might be default
     // We wait for update
     await waitFor(() => {
@@ -52,6 +56,10 @@ describe('QPA11YAccessibilityProvider', () => {
         <Consumer />
       </QPA11YAccessibilityProvider>
     );
+
+    await act(async () => {
+      await new Promise(resolve => setTimeout(resolve, 0));
+    });
 
     // Wait for the async initialization to settle to avoid act warnings
     await waitFor(() => {

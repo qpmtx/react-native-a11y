@@ -1,4 +1,4 @@
-import { renderHook, waitFor } from '@testing-library/react-native';
+import { renderHook, waitFor, act } from '@testing-library/react-native';
 import { QPA11YUseAccessibility } from '../../hooks/useAccessibility';
 import { QPA11YAccessibilityProvider } from '../../context/AccessibilityContext';
 import React from 'react';
@@ -37,6 +37,10 @@ describe('QPA11YUseAccessibility', () => {
     );
 
     const { result } = renderHook(() => QPA11YUseAccessibility(), { wrapper });
+    
+    await act(async () => {
+        await new Promise(resolve => setTimeout(resolve, 0));
+    });
     
     // Wait for the async initialization to complete
     await waitFor(() => {
