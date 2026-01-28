@@ -37,15 +37,13 @@ export type QPA11YAccessibilityPropsResult = {
  */
 export const QPA11YUseAccessibilityProps = (props: QPA11YAccessibilityComponentProps & { children?: unknown }): QPA11YAccessibilityPropsResult => {
   const { config } = QPA11YUseAccessibility();
-  const { role, label, hint, state, hidden, value, roleDescription } = props;
+  const { role, label, hint, state, hidden, value, roleDescription, componentName } = props;
 
   // Rule: Requirement for Label on interactive elements (AAA)
   if (config.level === 'AAA') {
-    if (role === 'button' && !label && !props.children) { // Note: children check is loose here, strict check relies on label presence for specific roles
+    if (role === 'button' && !label) {
        // Specifically checking explicit label requirement for 'button' role in strict mode
-       if (!label) {
-         QPA11YLoggerService.warn('WCAG AAA: Buttons must have an accessible label.');
-       }
+       QPA11YLoggerService.warn(`WCAG AAA: Buttons must have an accessible label.${componentName ? ` (Component: ${componentName})` : ''}`);
     }
   }
 

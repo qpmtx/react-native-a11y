@@ -129,4 +129,8 @@ export type QPA11YAccessibilityComponentProps = {
     now?: number;
     text?: string;
   };
+  /**
+   * Optional component name for better debugging/logging.
+   */
+  componentName?: string;
 };
