@@ -41,9 +41,9 @@ export const QPA11YUseAccessibilityProps = (props: QPA11YAccessibilityComponentP
 
   // Rule: Requirement for Label on interactive elements (AAA)
   if (config.level === 'AAA') {
-    if (role === 'button' && !label) {
-       // Specifically checking explicit label requirement for 'button' role in strict mode
-       QPA11YLoggerService.warn(`WCAG AAA: Buttons must have an accessible label.${componentName ? ` (Component: ${componentName})` : ''}`);
+    if ((role === 'button' || role === 'image' || role === 'switch' || role === 'checkbox' || role === 'radio' || role === 'alert') && !label && !roleDescription) {
+       // Specifically checking explicit label requirement for interactive roles and images in strict mode
+       QPA11YLoggerService.warn(`WCAG AAA: Elements with role "${role}" must have an accessible label.${componentName ? ` (Component: ${componentName})` : ''}`);
     }
   }
 

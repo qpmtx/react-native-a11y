@@ -77,7 +77,7 @@ describe('QPA11YUseAccessibilityProps', () => {
 
     renderHook(() => QPA11YUseAccessibilityProps({ role: 'button' }), { wrapper });
 
-    expect(warnSpy).toHaveBeenCalledWith('WCAG AAA: Buttons must have an accessible label.');
+    expect(warnSpy).toHaveBeenCalledWith('WCAG AAA: Elements with role "button" must have an accessible label.');
   });
 
   it('should NOT warn if AA level and button has no label', () => {
