@@ -39,7 +39,7 @@ describe('AccessibilityProvider', () => {
     expect(contextValue?.system.fontScale).toBe(1.5);
   });
 
-  it('should apply custom configuration', () => {
+  it('should apply custom configuration', async () => {
     let contextValue: any;
 
     const Consumer = () => {
@@ -52,6 +52,11 @@ describe('AccessibilityProvider', () => {
         <Consumer />
       </AccessibilityProvider>
     );
+
+    // Wait for the async initialization to settle to avoid act warnings
+    await waitFor(() => {
+       expect(contextValue?.system.isScreenReaderEnabled).toBe(true);
+    });
 
     expect(contextValue?.config.level).toBe('AAA');
     expect(contextValue?.config.featureFlags.enforceHighContrast).toBe(true);
