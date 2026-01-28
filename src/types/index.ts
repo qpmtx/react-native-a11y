@@ -8,13 +8,13 @@
  * - 'AA': Standard legal requirement (default).
  * - 'AAA': Enhanced strictness (higher contrast, larger touch targets).
  */
-export type WCAGLevel = 'AA' | 'AAA';
+export type QPA11YWCAGLevel = 'AA' | 'AAA';
 
 /**
  * Represents the complete snapshot of the device's accessibility settings.
  * This covers WCAG requirements for Motion, Vision, and Text scaling.
  */
-export type AccessibilitySystemState = {
+export type QPA11YAccessibilitySystemState = {
   /** Is VoiceOver (iOS) or TalkBack (Android) active? */
   isScreenReaderEnabled: boolean;
   
@@ -40,7 +40,7 @@ export type AccessibilitySystemState = {
 /**
  * Feature flags to toggle specific accessibility behaviors.
  */
-export type AccessibilityFeatureFlags = {
+export type QPA11YAccessibilityFeatureFlags = {
   /** If true, warns or styles components that do not meet the minimum touch target size. */
   enforceMinimumTouchTarget?: boolean;
   /** If true, enforces stricter contrast checks for text and icons. */
@@ -54,20 +54,79 @@ export type AccessibilityFeatureFlags = {
 /**
  * Configuration options for the Accessibility Provider.
  */
-export type AccessibilityConfig = {
+export type QPA11YAccessibilityConfig = {
   /** The WCAG compliance level to enforce. Defaults to 'AA'. */
-  level: WCAGLevel;
+  level: QPA11YWCAGLevel;
   
   /** Feature flags to toggle specific accessibility behaviors. */
-  featureFlags: AccessibilityFeatureFlags;
+  featureFlags: QPA11YAccessibilityFeatureFlags;
 };
 
 /**
  * The shape of the context data provided to the app.
  */
-export type AccessibilityContextState = {
+export type QPA11YAccessibilityContextState = {
   /** The real-time state of the device system settings. */
-  system: AccessibilitySystemState;
+  system: QPA11YAccessibilitySystemState;
   /** The active configuration object. */
-  config: AccessibilityConfig;
+  /** The active configuration object. */
+  config: QPA11YAccessibilityConfig;
+};
+
+/**
+ * Represents the state of an accessible component.
+ * Maps to React Native's accessibilityState.
+ */
+export type QPA11YAccessibilityComponentState = {
+  /** Is the component currently selected or checked? */
+  checked?: boolean | 'mixed';
+  /** Is the component disabled? */
+  disabled?: boolean;
+  /** Is the component currently processing an action? */
+  busy?: boolean;
+  /** Is the component expanded? (e.g., accordion, menu) */
+  expanded?: boolean;
+};
+
+/**
+ * Input props for the useAccessibilityProps hook.
+ * Defines the semantic requirements for an accessible component.
+ */
+export type QPA11YAccessibilityComponentProps = {
+  /** The semantic role of the component. */
+  role?: 'button' | 'link' | 'image' | 'text' | 'header' | 'search' | 'imagebutton' | 'keyboardkey' | 'adjustable' | 'summary' | 'alert' | 'checkbox' | 'combobox' | 'menu' | 'menubar' | 'menuitem' | 'progressbar' | 'radio' | 'radiogroup' | 'scrollbar' | 'spinbutton' | 'switch' | 'tab' | 'tablist' | 'timer' | 'toolbar';
+  
+  /** 
+   * Descriptive role description (iOS only). 
+   * Use with caution, standard roles are preferred.
+   */
+  roleDescription?: string;
+
+  /**
+   * The text read by the screen reader.
+   * REQUIRED for interactive elements like buttons if strict mode is enabled.
+   */
+  label?: string;
+
+  /** Additional context or instructions (e.g., "Double tap to open"). */
+  hint?: string;
+
+  /** The current state of the component. */
+  state?: QPA11YAccessibilityComponentState;
+
+  /** 
+   * Is the component hidden from accessibility services? 
+   * If true, sets importantForAccessibility to 'no-hide-descendants'.
+   */
+  hidden?: boolean;
+
+  /**
+   * Defines the semantic value of the component (e.g. for sliders).
+   */
+  value?: {
+    min?: number;
+    max?: number;
+    now?: number;
+    text?: string;
+  };
 };

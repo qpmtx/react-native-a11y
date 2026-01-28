@@ -1,13 +1,13 @@
 import { renderHook, waitFor } from '@testing-library/react-native';
-import { useAccessibilitySystem } from '../../hooks/useAccessibilitySystem';
-import { AccessibilityProvider } from '../../context/AccessibilityContext';
+import { QPA11YUseAccessibilitySystem } from '../../hooks/useAccessibilitySystem';
+import { QPA11YAccessibilityProvider } from '../../context/AccessibilityContext';
 import React from 'react';
 import { AccessibilityInfo, PixelRatio } from 'react-native';
-import { LoggerService } from '../../services/LoggerService';
+import { QPA11YLoggerService } from '../../services/LoggerService';
 
 // Quiet logs
-jest.spyOn(LoggerService, 'info').mockImplementation(() => {});
-jest.spyOn(LoggerService, 'error').mockImplementation(() => {});
+jest.spyOn(QPA11YLoggerService, 'info').mockImplementation(() => {});
+jest.spyOn(QPA11YLoggerService, 'error').mockImplementation(() => {});
 
 // Mock AccessibilityInfo
 const mockAddEventListener = jest.fn().mockReturnValue({ remove: jest.fn() });
@@ -32,7 +32,7 @@ const mockSystemState = (overrides: Partial<{
   jest.spyOn(PixelRatio, 'getFontScale').mockReturnValue(overrides.fontScale ?? 1);
 };
 
-describe('useAccessibilitySystem', () => {
+describe('QPA11YUseAccessibilitySystem', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
@@ -40,7 +40,7 @@ describe('useAccessibilitySystem', () => {
   it('should throw error if used outside provider', () => {
     // Suppress expected error log
     jest.spyOn(console, 'error').mockImplementation(() => {});
-    expect(() => renderHook(() => useAccessibilitySystem())).toThrow();
+    expect(() => renderHook(() => QPA11YUseAccessibilitySystem())).toThrow();
     jest.spyOn(console, 'error').mockRestore();
   });
 
@@ -48,10 +48,10 @@ describe('useAccessibilitySystem', () => {
     mockSystemState({ isReduceMotionEnabled: false });
 
     const wrapper = ({ children }: { children: React.ReactNode }) => (
-      <AccessibilityProvider>{children}</AccessibilityProvider>
+      <QPA11YAccessibilityProvider>{children}</QPA11YAccessibilityProvider>
     );
 
-    const { result } = renderHook(() => useAccessibilitySystem(), { wrapper });
+    const { result } = renderHook(() => QPA11YUseAccessibilitySystem(), { wrapper });
 
     await waitFor(() => {
       expect(result.current.isReduceMotionEnabled).toBe(false);
@@ -64,10 +64,10 @@ describe('useAccessibilitySystem', () => {
     mockSystemState({ isReduceMotionEnabled: true });
 
     const wrapper = ({ children }: { children: React.ReactNode }) => (
-      <AccessibilityProvider>{children}</AccessibilityProvider>
+      <QPA11YAccessibilityProvider>{children}</QPA11YAccessibilityProvider>
     );
 
-    const { result } = renderHook(() => useAccessibilitySystem(), { wrapper });
+    const { result } = renderHook(() => QPA11YUseAccessibilitySystem(), { wrapper });
 
     await waitFor(() => {
       expect(result.current.isReduceMotionEnabled).toBe(true);
@@ -88,10 +88,10 @@ describe('useAccessibilitySystem', () => {
     });
 
     const wrapper = ({ children }: { children: React.ReactNode }) => (
-      <AccessibilityProvider>{children}</AccessibilityProvider>
+      <QPA11YAccessibilityProvider>{children}</QPA11YAccessibilityProvider>
     );
 
-    const { result } = renderHook(() => useAccessibilitySystem(), { wrapper });
+    const { result } = renderHook(() => QPA11YUseAccessibilitySystem(), { wrapper });
 
     await waitFor(() => {
       expect(result.current.isScreenReaderEnabled).toBe(true);

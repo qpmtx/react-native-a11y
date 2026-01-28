@@ -8,7 +8,7 @@ const TAG = '[QPMTX-A11Y]';
  * Service responsible for standardized logging across the library.
  * It enforces a consistent tag prefix and handles log levels.
  */
-export const LoggerService = {
+export const QPA11YLoggerService = {
   /**
    * Logs an informational message.
    * Usually used for debugging flows (e.g., "Screen reader changed to ON").

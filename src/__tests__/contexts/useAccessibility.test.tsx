@@ -1,13 +1,13 @@
 import { renderHook, waitFor } from '@testing-library/react-native';
-import { useAccessibility } from '../../hooks/useAccessibility';
-import { AccessibilityProvider } from '../../context/AccessibilityContext';
+import { QPA11YUseAccessibility } from '../../hooks/useAccessibility';
+import { QPA11YAccessibilityProvider } from '../../context/AccessibilityContext';
 import React from 'react';
-import { LoggerService } from '../../services/LoggerService';
+import { QPA11YLoggerService } from '../../services/LoggerService';
 import { AccessibilityInfo, PixelRatio } from 'react-native';
 
 // Quiet logs for test
-jest.spyOn(LoggerService, 'error').mockImplementation(() => {});
-jest.spyOn(LoggerService, 'info').mockImplementation(() => {});
+jest.spyOn(QPA11YLoggerService, 'error').mockImplementation(() => {});
+jest.spyOn(QPA11YLoggerService, 'info').mockImplementation(() => {});
 
 // Mock AccessibilityInfo
 jest.spyOn(AccessibilityInfo, 'isScreenReaderEnabled').mockResolvedValue(true);
@@ -19,12 +19,12 @@ jest.spyOn(AccessibilityInfo, 'isInvertColorsEnabled').mockResolvedValue(false);
 jest.spyOn(AccessibilityInfo, 'addEventListener').mockReturnValue({ remove: jest.fn() } as any);
 jest.spyOn(PixelRatio, 'getFontScale').mockReturnValue(1);
 
-describe('useAccessibility', () => {
+describe('QPA11YUseAccessibility', () => {
   it('should throw an error if used outside of AccessibilityProvider', () => {
     // Suppress console.error for expected error
     const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
     
-    expect(() => renderHook(() => useAccessibility())).toThrow(
+    expect(() => renderHook(() => QPA11YUseAccessibility())).toThrow(
       'useAccessibility must be used within an AccessibilityProvider'
     );
     
@@ -33,10 +33,10 @@ describe('useAccessibility', () => {
 
   it('should return context when used within AccessibilityProvider', async () => {
     const wrapper = ({ children }: { children: React.ReactNode }) => (
-      <AccessibilityProvider>{children}</AccessibilityProvider>
+      <QPA11YAccessibilityProvider>{children}</QPA11YAccessibilityProvider>
     );
 
-    const { result } = renderHook(() => useAccessibility(), { wrapper });
+    const { result } = renderHook(() => QPA11YUseAccessibility(), { wrapper });
     
     // Wait for the async initialization to complete
     await waitFor(() => {

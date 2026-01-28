@@ -4,24 +4,24 @@ import {
   accessibilityReducer, 
   initialState,
 } from './accessibilityReducer';
-import { LoggerService } from '../services/LoggerService';
+import { QPA11YLoggerService } from '../services/LoggerService';
 import type { 
-  AccessibilityConfig, 
-  AccessibilityContextState 
+  QPA11YAccessibilityConfig, 
+  QPA11YAccessibilityContextState 
 } from '../types';
 
-export const AccessibilityContext = createContext<AccessibilityContextState | undefined>(undefined);
+export const QPA11YAccessibilityContext = createContext<QPA11YAccessibilityContextState | undefined>(undefined);
 
-export type AccessibilityProviderProps = {
+export type QPA11YAccessibilityProviderProps = {
   children: ReactNode;
-  config?: Partial<AccessibilityConfig>;
+  config?: Partial<QPA11YAccessibilityConfig>;
 };
 
 /**
  * The main Provider component. 
  * This must wrap your application root to enable the accessibility hooks.
  */
-export const AccessibilityProvider: React.FC<AccessibilityProviderProps> = ({ 
+export const QPA11YAccessibilityProvider: React.FC<QPA11YAccessibilityProviderProps> = ({ 
   children, 
   config 
 }) => {
@@ -29,7 +29,7 @@ export const AccessibilityProvider: React.FC<AccessibilityProviderProps> = ({
   const [systemState, dispatch] = useReducer(accessibilityReducer, initialState);
 
   // 2. Merge user config with defaults
-  const activeConfig: AccessibilityConfig = {
+  const activeConfig: QPA11YAccessibilityConfig = {
     level: config?.level || 'AA',
     featureFlags: {
       enforceMinimumTouchTarget: true,
@@ -76,13 +76,13 @@ export const AccessibilityProvider: React.FC<AccessibilityProviderProps> = ({
         });
 
         if (activeConfig.featureFlags.debugMode) {
-          LoggerService.info('System State Initialized', { 
+          QPA11YLoggerService.info('System State Initialized', { 
             level: activeConfig.level,
             system: { screenReader, reduceMotion, fontScale: currentFontScale }
           });
         }
       } catch (error) {
-        LoggerService.error('Failed to initialize accessibility state', error);
+        QPA11YLoggerService.error('Failed to initialize accessibility state', error);
       }
     };
 
@@ -118,8 +118,8 @@ export const AccessibilityProvider: React.FC<AccessibilityProviderProps> = ({
   }, []);
 
   return (
-    <AccessibilityContext.Provider value={{ system: systemState, config: activeConfig }}>
+    <QPA11YAccessibilityContext.Provider value={{ system: systemState, config: activeConfig }}>
       {children}
-    </AccessibilityContext.Provider>
+    </QPA11YAccessibilityContext.Provider>
   );
 };

@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, waitFor } from '@testing-library/react-native';
-import { AccessibilityProvider, AccessibilityContext } from '../../context/AccessibilityContext';
+import { QPA11YAccessibilityProvider, QPA11YAccessibilityContext } from '../../context/AccessibilityContext';
 import { AccessibilityInfo, PixelRatio } from 'react-native';
 
 // Mock AccessibilityInfo methods
@@ -14,19 +14,19 @@ jest.spyOn(AccessibilityInfo, 'addEventListener').mockReturnValue({ remove: jest
 // Mock PixelRatio
 jest.spyOn(PixelRatio, 'getFontScale').mockReturnValue(1.5);
 
-describe('AccessibilityProvider', () => {
+describe('QPA11YAccessibilityProvider', () => {
   it('should initialize system state from AccessibilityInfo', async () => {
     let contextValue: any;
 
     const Consumer = () => {
-      contextValue = React.useContext(AccessibilityContext);
+      contextValue = React.useContext(QPA11YAccessibilityContext);
       return null;
     };
 
     render(
-      <AccessibilityProvider>
+      <QPA11YAccessibilityProvider>
         <Consumer />
-      </AccessibilityProvider>
+      </QPA11YAccessibilityProvider>
     );
 
     // Initial state might be default
@@ -43,14 +43,14 @@ describe('AccessibilityProvider', () => {
     let contextValue: any;
 
     const Consumer = () => {
-      contextValue = React.useContext(AccessibilityContext);
+      contextValue = React.useContext(QPA11YAccessibilityContext);
       return null;
     };
 
     render(
-      <AccessibilityProvider config={{ level: 'AAA', featureFlags: { enforceHighContrast: true } }}>
+      <QPA11YAccessibilityProvider config={{ level: 'AAA', featureFlags: { enforceHighContrast: true } }}>
         <Consumer />
-      </AccessibilityProvider>
+      </QPA11YAccessibilityProvider>
     );
 
     // Wait for the async initialization to settle to avoid act warnings
