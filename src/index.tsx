@@ -1,3 +1,5 @@
-export function multiply(a: number, b: number): number {
-  return a * b;
-}
+// Main Barrier Export
+export * from './context/AccessibilityContext';
+export * from './hooks/useAccessibility';
+export * from './services/LoggerService';
+export * from './types';
